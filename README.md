@@ -300,35 +300,35 @@ Edit file `/etc/bind/named.conf.options` dan comment `dnssec-validation auto;` d
 allow-query{any;};
 ```
 
-kemudian edit file `/etc/bind/named.conf.local` untuk delegasi `mecha.franky.t07.com`
+kemudian edit file `/etc/bind/named.conf.local` untuk delegasi `mecha.wise.t07.com`
 
 ```
-zone "franky.t07.com" {
+zone "wise.t07.com" {
     type slave;
     masters { 10.45.2.2; }; // Masukan IP EniesLobby tanpa tanda petik
-    file "/var/lib/bind/franky.t07.com";
+    file "/var/lib/bind/wise.t07.com";
 };
 
-zone "mecha.franky.t07.com"{
+zone "mecha.wise.t07.com"{
         type master;
-        file "/etc/bind/sunnygo/mecha.franky.t07.com";
+        file "/etc/bind/sunnygo/mecha.wise.t07.com";
 };
 ```
 
-buat sebuah direktori `mkdir /etc/bind/sunnygo` dan Lakukan konfigurasi pada file `/etc/bind/sunnygo/mecha.franky.t07.com`
+buat sebuah direktori `mkdir /etc/bind/sunnygo` dan Lakukan konfigurasi pada file `/etc/bind/sunnygo/mecha.wise.t07.com`
 
 ```
 $TTL    604800
-@       IN      SOA     mecha.franky.t07.com. root.mecha.franky.t07.com. (
+@       IN      SOA     mecha.wise.t07.com. root.mecha.wise.t07.com. (
                         2021100401      ; Serial
                         604800         ; Refresh
                         86400         ; Retry
                         2419200         ; Expire
                         604800 )       ; Negative Cache TTL
 ;
-@               IN      NS      mecha.franky.t07.com.
+@               IN      NS      mecha.wise.t07.com.
 @               IN      A       10.45.2.4       ;ip eden
-www             IN      CNAME   mecha.franky.t07.com.
+www             IN      CNAME   mecha.wise.t07.com.
 ```
 
 Melakukan restart sevice bind9 dengan `service bind9 restart`
@@ -336,22 +336,22 @@ Melakukan restart sevice bind9 dengan `service bind9 restart`
 ### Soal 7
 
 **Server berlint**  
-konfigurasi file `/etc/bind/sunnygo/mecha.franky.t07.com` dengan
+konfigurasi file `/etc/bind/sunnygo/mecha.wise.t07.com` dengan
 
 ```
 $TTL    604800
-@       IN      SOA     mecha.franky.t07.com. root.mecha.franky.t07.com. (
+@       IN      SOA     mecha.wise.t07.com. root.mecha.wise.t07.com. (
                         2021100401      ; Serial
                         604800         ; Refresh
                         86400         ; Retry
                         2419200         ; Expire
                         604800 )       ; Negative Cache TTL
 ;
-@               IN      NS      mecha.franky.t07.com.
+@               IN      NS      mecha.wise.t07.com.
 @               IN      A       10.45.2.4       ;ip eden
-www             IN      CNAME   mecha.franky.t07.com.
+www             IN      CNAME   mecha.wise.t07.com.
 general         IN      A       10.45.2.4       ;IP eden
-www.general     IN      CNAME   mecha.franky.t07.com.
+www.general     IN      CNAME   mecha.wise.t07.com.
 ```
 
 Melakukan restart sevice bind9 dengan `service bind9 restart`
@@ -378,33 +378,33 @@ service apache2
 apt-get install ca-certificates openssl -y
 ```
 
-konfigurasi file `/etc/apache2/sites-available/franky.t07.com.conf`. DcumentRoot diletakkan di /var/www/franky.t07.com. Jangan lupa untuk menambah servername dan serveralias
+konfigurasi file `/etc/apache2/sites-available/wise.t07.com.conf`. DcumentRoot diletakkan di /var/www/wise.t07.com. Jangan lupa untuk menambah servername dan serveralias
 
 ```
 <VirtualHost *:80>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/franky.t07.com
-        ServerName franky.t07.com
-        ServerAlias www.franky.t07.com
+        DocumentRoot /var/www/wise.t07.com
+        ServerName wise.t07.com
+        ServerAlias www.wise.t07.com
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 ```
 
-Lalu lakukan membaut sebuah direkroti root untuk server franky.t07.com dan melakukan copy file content
+Lalu lakukan membaut sebuah direkroti root untuk server wise.t07.com dan melakukan copy file content
 
 ```
-mkdir /var/www/franky.t07.com
-cp -r /root/Praktikum-Modul-2-Jarkom/franky/. /var/www/franky.t07.com
+mkdir /var/www/wise.t07.com
+cp -r /root/Praktikum-Modul-2-Jarkom/wise/. /var/www/wise.t07.com
 service apache2 restart
 ```
 
 ### Soal 9
 
 **Server eden**  
-konfigurasi file `/var/www/franky.t07.com/.htaccess` dengan
+konfigurasi file `/var/www/wise.t07.com/.htaccess` dengan
 
 ```
 a2enmod rewrite
@@ -417,19 +417,19 @@ RewriteRule (.*) /index.php/\$1 [L]
 ```
 
 Inti dari konfigurasi tersebut adalah kita melakukan cek apakah request tersebut adalah ke file atau bukan dan ke direktori atau bukan jika hal tersebut terpenuhi aka kita membuat rule untuk melakukan direct ke /index.php/home. $1 merupakan parameter yang diinputkan di url
-konfigurasi file `/etc/apache2/sites-available/franky.t07.com.conf` dengan
+konfigurasi file `/etc/apache2/sites-available/wise.t07.com.conf` dengan
 
 ```
 <VirtualHost *:80>
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/franky.t07.com
-        ServerName franky.t07.com
-        ServerAlias www.franky.t07.com
+        DocumentRoot /var/www/wise.t07.com
+        ServerName wise.t07.com
+        ServerAlias www.wise.t07.com
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 
-        <Directory /var/www/franky.t07.com>
+        <Directory /var/www/wise.t07.com>
                 Options +FollowSymLinks -Multiviews
                 AllowOverride All
         </Directory>
@@ -441,59 +441,59 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 ## soal 10
 
 **Server eden**  
-konfigurasi file `/etc/apache2/sites-available/super.franky.t07.com.conf` dengan
+konfigurasi file `/etc/apache2/sites-available/super.wise.t07.com.conf` dengan
 
 ```
 <VirtualHost *:80>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/super.franky.t07.com
-        ServerName super.franky.t07.com
-        ServerAlias www.super.franky.t07.com
+        DocumentRoot /var/www/super.wise.t07.com
+        ServerName super.wise.t07.com
+        ServerAlias www.super.wise.t07.com
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 
-        <Directory /var/www/franky.t07.com>
+        <Directory /var/www/wise.t07.com>
                 Options +FollowSymLinks -Multiviews
                 AllowOverride All
         </Directory>
 </VirtualHost>
 ```
 
-Lalu aktifkan virtualhost dengan a2ensite, membuat direktori untuk documentroot di /var/www/super.franky.t07.com dan jangan lupa untuk melakukan copy content ke documentroot dengan cara
+Lalu aktifkan virtualhost dengan a2ensite, membuat direktori untuk documentroot di /var/www/super.wise.t07.com dan jangan lupa untuk melakukan copy content ke documentroot dengan cara
 
 ```
-a2ensite super.franky.t07.com
-mkdir /var/www/super.franky.t07.com
-cp -r /root/Praktikum-Modul-2-Jarkom/super.franky/. /var/www/super.franky.t07.com
+a2ensite super.wise.t07.com
+mkdir /var/www/super.wise.t07.com
+cp -r /root/Praktikum-Modul-2-Jarkom/super.wise/. /var/www/super.wise.t07.com
 service apache2 restart
 ```
 
-konfigurasi file `/var/www/super.franky.t07.com/index.php` dengan `echo "<?php echo 'yes nomor 10' ?>"`
+konfigurasi file `/var/www/super.wise.t07.com/index.php` dengan `echo "<?php echo 'yes nomor 10' ?>"`
 
 ## soal 11
 
 **Server eden**  
-konfigurasi file `/etc/apache2/sites-available/super.franky.t07.com.conf` menamahkan Options +Indexes ke direktori yang ingin di directory list dengan
+konfigurasi file `/etc/apache2/sites-available/super.wise.t07.com.conf` menamahkan Options +Indexes ke direktori yang ingin di directory list dengan
 
 ```
 
 <VirtualHost *:80>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/super.franky.t07.com
-        ServerName super.franky.t07.com
-        ServerAlias www.super.franky.t07.com
+        DocumentRoot /var/www/super.wise.t07.com
+        ServerName super.wise.t07.com
+        ServerAlias www.super.wise.t07.com
 
-        <Directory /var/www/super.franky.t07.com/public>
+        <Directory /var/www/super.wise.t07.com/public>
                 Options +Indexes
         </Directory>
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 
-        <Directory /var/www/franky.t07.com>
+        <Directory /var/www/wise.t07.com>
                 Options +FollowSymLinks -Multiviews
                 AllowOverride All
         </Directory>
@@ -506,15 +506,15 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 ## soal 12
 
 **Server eden**  
-konfigurasi file `/etc/apache2/sites-available/super.franky.t07.com.conf` menambahkan konfigurasi ErrorDocumentuntuk setiap error yang ada yang diarahkan ke file /error/404.html dengan
+konfigurasi file `/etc/apache2/sites-available/super.wise.t07.com.conf` menambahkan konfigurasi ErrorDocumentuntuk setiap error yang ada yang diarahkan ke file /error/404.html dengan
 
 ```
 
 <VirtualHost *:80>
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/super.franky.t07.com
-        ServerName super.franky.t07.com
-        ServerAlias www.super.franky.t07.com
+        DocumentRoot /var/www/super.wise.t07.com
+        ServerName super.wise.t07.com
+        ServerAlias www.super.wise.t07.com
 
         ErrorDocument 404 /error/404.html
         ErrorDocument 500 /error/404.html
@@ -522,14 +522,14 @@ konfigurasi file `/etc/apache2/sites-available/super.franky.t07.com.conf` menamb
         ErrorDocument 503 /error/404.html
         ErrorDocument 504 /error/404.html
 
-        <Directory /var/www/super.franky.t07.com/public>
+        <Directory /var/www/super.wise.t07.com/public>
                 Options +Indexes
         </Directory>
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 
-        <Directory /var/www/franky.t07.com>
+        <Directory /var/www/wise.t07.com>
                 Options +FollowSymLinks -Multiviews
                 AllowOverride All
         </Directory>
@@ -542,15 +542,15 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 ## soal 13
 
 **Server eden**  
-konfigurasi file `/etc/apache2/sites-available/super.franky.t07.com.conf` menambahkan konfigurasi Alias dengan
+konfigurasi file `/etc/apache2/sites-available/super.wise.t07.com.conf` menambahkan konfigurasi Alias dengan
 
 ```
 <VirtualHost *:80>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/super.franky.t07.com
-        ServerName super.franky.t07.com
-        ServerAlias www.super.franky.t07.com
+        DocumentRoot /var/www/super.wise.t07.com
+        ServerName super.wise.t07.com
+        ServerAlias www.super.wise.t07.com
 
         ErrorDocument 404 /error/404.html
         ErrorDocument 500 /error/404.html
@@ -558,17 +558,17 @@ konfigurasi file `/etc/apache2/sites-available/super.franky.t07.com.conf` menamb
         ErrorDocument 503 /error/404.html
         ErrorDocument 504 /error/404.html
 
-        <Directory /var/www/super.franky.t07.com/public>
+        <Directory /var/www/super.wise.t07.com/public>
                 Options +Indexes
         </Directory>
 
-        Alias \"/js\" \"/var/www/super.franky.t07.com/public/js\"
+        Alias \"/js\" \"/var/www/super.wise.t07.com/public/js\"
 
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 
-        <Directory /var/www/franky.t07.com>
+        <Directory /var/www/wise.t07.com>
                 Options +FollowSymLinks -Multiviews
                 AllowOverride All
         </Directory>
@@ -579,20 +579,20 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 
 ## soal 14
 
-Dan Luffy meminta untuk web `www.general.mecha.franky.yyy.com` hanya bisa diakses dengan port 15000 dan port 15500
+Dan Luffy meminta untuk web `www.general.mecha.wise.yyy.com` hanya bisa diakses dengan port 15000 dan port 15500
 
 ### Jawaban Soal 14
 
 **Server eden**  
-konfigurasi file `/etc/apache2/sites-available/general.mecha.franky.t07.com.conf` disini menambahkan CirtualHost baru yang berada pada port 15000 dan 15500 dengan
+konfigurasi file `/etc/apache2/sites-available/general.mecha.wise.t07.com.conf` disini menambahkan CirtualHost baru yang berada pada port 15000 dan 15500 dengan
 
 ```
 <VirtualHost *:15000>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/general.mecha.franky.t07.com
-        ServerName general.mecha.franky.t07.com
-        ServerAlias www.general.mecha.franky.t07.com
+        DocumentRoot /var/www/general.mecha.wise.t07.com
+        ServerName general.mecha.wise.t07.com
+        ServerAlias www.general.mecha.wise.t07.com
 
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
@@ -600,9 +600,9 @@ konfigurasi file `/etc/apache2/sites-available/general.mecha.franky.t07.com.conf
 </VirtualHost>
 <VirtualHost *:15500>
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/general.mecha.franky.t07.com
-        ServerName general.mecha.franky.t07.com
-        ServerAlias www.general.mecha.franky.t07.com
+        DocumentRoot /var/www/general.mecha.wise.t07.com
+        ServerName general.mecha.wise.t07.com
+        ServerAlias www.general.mecha.wise.t07.com
 
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
@@ -613,13 +613,13 @@ konfigurasi file `/etc/apache2/sites-available/general.mecha.franky.t07.com.conf
 Lalu lakukan
 
 ```
-a2ensite general.mecha.franky.t07.com
+a2ensite general.mecha.wise.t07.com
 service apache2 restart
-mkdir /var/www/general.mecha.franky.t07.com
-cp -r /root/Praktikum-Modul-2-Jarkom/general.mecha.franky/. /var/www/general.mecha.franky.t07.com/
+mkdir /var/www/general.mecha.wise.t07.com
+cp -r /root/Praktikum-Modul-2-Jarkom/general.mecha.wise/. /var/www/general.mecha.wise.t07.com/
 ```
 
-konfigurasi file `/var/www/general.mecha.franky.t07.com/index.php` dengan
+konfigurasi file `/var/www/general.mecha.wise.t07.com/index.php` dengan
 
 ```
 <?php
@@ -652,17 +652,17 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 
 **Server eden**  
 Jalankan Command `htpasswd -c -b /etc/apache2/.htpasswd luffy onepiece`  
-konfigurasi file `/etc/apache2/sites-available/general.mecha.franky.t07.com.conf` dengan
+konfigurasi file `/etc/apache2/sites-available/general.mecha.wise.t07.com.conf` dengan
 
 ```
 <VirtualHost *:15000>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/general.mecha.franky.t07.com
-        ServerName general.mecha.franky.t07.com
-        ServerAlias www.general.mecha.franky.t07.com
+        DocumentRoot /var/www/general.mecha.wise.t07.com
+        ServerName general.mecha.wise.t07.com
+        ServerAlias www.general.mecha.wise.t07.com
 
-        <Directory \"/var/www/general.mecha.franky.t07.com\">
+        <Directory \"/var/www/general.mecha.wise.t07.com\">
                 AuthType Basic
                 AuthName \"Restricted Content\"
                 AuthUserFile /etc/apache2/.htpasswd
@@ -674,11 +674,11 @@ konfigurasi file `/etc/apache2/sites-available/general.mecha.franky.t07.com.conf
 </VirtualHost>
 <VirtualHost *:15500>
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/general.mecha.franky.t07.com
-        ServerName general.mecha.franky.t07.com
-        ServerAlias www.general.mecha.franky.t07.com
+        DocumentRoot /var/www/general.mecha.wise.t07.com
+        ServerName general.mecha.wise.t07.com
+        ServerAlias www.general.mecha.wise.t07.com
 
-        <Directory \"/var/www/general.mecha.franky.t07.com\">
+        <Directory \"/var/www/general.mecha.wise.t07.com\">
                 AuthType Basic
                 AuthName \"Restricted Content\"
                 AuthUserFile /etc/apache2/.htpasswd
@@ -704,8 +704,8 @@ konfigurasi file `/etc/apache2/sites-available/000-default.conf` dengan
         DocumentRoot /var/www/html
 
         RewriteEngine On
-        RewriteCond %{HTTP_HOST} !^franky.t07.com$
-        RewriteRule /.* http://franky.t07.com/ [R]
+        RewriteCond %{HTTP_HOST} !^wise.t07.com$
+        RewriteRule /.* http://wise.t07.com/ [R]
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
@@ -718,27 +718,27 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 ## soal 17
 
 **Server eden**  
-konfigurasi file `/var/www/super.franky.t07.com/.htaccess` dengan
+konfigurasi file `/var/www/super.wise.t07.com/.htaccess` dengan
 
 ```
 echo "
 RewriteEngine On
-RewriteCond %{REQUEST_URI} ^/public/images/(.*)franky(.*)
-RewriteCond %{REQUEST_URI} !/public/images/franky.png
-RewriteRule /.* http://super.franky.t07.com/public/images/franky.png [L]
+RewriteCond %{REQUEST_URI} ^/public/images/(.*)wise(.*)
+RewriteCond %{REQUEST_URI} !/public/images/wise.png
+RewriteRule /.* http://super.wise.t07.com/public/images/wise.png [L]
 "
 ```
 
-konfigurasi file `/etc/apache2/sites-available/super.franky.t07.com.conf` dengan
+konfigurasi file `/etc/apache2/sites-available/super.wise.t07.com.conf` dengan
 
 ```
 echo "
 <VirtualHost *:80>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/super.franky.t07.com
-        ServerName super.franky.t07.com
-        ServerAlias www.super.franky.t07.com
+        DocumentRoot /var/www/super.wise.t07.com
+        ServerName super.wise.t07.com
+        ServerAlias www.super.wise.t07.com
 
         ErrorDocument 404 /error/404.html
         ErrorDocument 500 /error/404.html
@@ -746,20 +746,20 @@ echo "
         ErrorDocument 503 /error/404.html
         ErrorDocument 504 /error/404.html
 
-        <Directory /var/www/super.franky.t07.com/public>
+        <Directory /var/www/super.wise.t07.com/public>
                 Options +Indexes
         </Directory>
 
-        Alias \"/js\" \"/var/www/super.franky.t07.com/public/js\"
+        Alias \"/js\" \"/var/www/super.wise.t07.com/public/js\"
 
-        <Directory /var/www/super.franky.t07.com>
+        <Directory /var/www/super.wise.t07.com>
                 Options +FollowSymLinks -Multiviews
                 AllowOverride All
         </Directory>
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 
-        <Directory /var/www/franky.t07.com>
+        <Directory /var/www/wise.t07.com>
                 Options +FollowSymLinks -Multiviews
                 AllowOverride All
         </Directory>
