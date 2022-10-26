@@ -651,7 +651,7 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 ## soal 15
 
 **Server eden**  
-Jalankan Command `htpasswd -c -b /etc/apache2/.htpasswd luffy onepiece`  
+Jalankan Command `htpasswd -c -b /etc/apache2/.htpasswd loid`  
 konfigurasi file `/etc/apache2/sites-available/general.operation.wise.t07.com.conf` dengan
 
 ```
