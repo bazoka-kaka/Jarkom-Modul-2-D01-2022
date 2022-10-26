@@ -86,3 +86,215 @@ Deskripsi tiap soal:
         ubahlah request gambar yang memiliki substring "eden" akan diarahkan menuju eden.png
     </li>
 </ol>
+
+## Jawaban Soal
+
+### Soal 1
+
+Berikut adalah topologinya:
+<img src="./imgs/topologi.png" placeholder="topologi" />
+kita lalu melakukan konfigurasi pada setiap node yang ada:
+<br>
+<strong>Ostania sebagai router:</strong>
+
+```
+auto eth0
+iface th0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+    address 10.45.1.1
+    netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+    address 10.45.2.1
+    netmask 255.255.255.0
+```
+
+<strong>SSS sebagai Client</strong>
+
+```
+> apt-get update
+> apt-get install dnsutils
+```
+
+```
+auto eth0
+iface eth0 inet static
+    address 10.45.1.2
+    netmask 255.255.255.0
+    gateway 10.45.1.1
+```
+
+<strong>Garden sebagai Client</strong>
+
+```
+auto eth0
+iface eth0 inet static
+    address 10.45.1.3
+    netmask 255.255.255.0
+    gateway 10.45.1.1
+```
+
+<strong>WISE sebaggai DNS Master</strong>
+
+```
+> apt-get update
+> apt-get install bind9 -y
+```
+
+```
+auto eth0
+iface eth0 inet static
+    address 10.45.2.2
+    netmask 255.255.255.0
+    gateway 10.45.2.1
+```
+
+<strong>Berlint sebagai DNS Slave</strong>
+
+```
+> apt-get update
+> apt-get install bind9 -y
+> echo "nameserver 192.168.122.1" > /etc/resolv.conf
+```
+
+```
+auto eth0
+iface eth0 inet static
+    address 10.45.2.3
+    netmask 255.255.255.0
+    gateway 10.45.2.1
+```
+
+<strong>Skypie Sebagai Webserver</strong>
+
+```
+auto eth0
+iface eth0 inet static
+    address 10.45.2.4
+    netmask 255.255.255.0
+    gateway 10.45.2.1
+```
+
+setiap node kemudian diaktifkan dengan click tombol start. lalu kitamenjalankan command
+<code>iptables -t nat -A POSTROUTING -o eth0 -j WISE -s 10.45.0.0/16</code> pada router Ostania sehingga dapat terkoneksi dengan internet.
+
+### Soal 2
+
+<strong>Server Eden</strong>
+melakukan konfigurasi terhadap file <code>/etc/bind/named.conf.local </code>
+dengan menambahkan
+
+```
+zone "wise.t07.com" {
+        type master;
+        file "/etc/bind/wise/wise.t07.com";
+};
+```
+
+membuat dir baru, yakni <code>/etc/bind/wise</code>
+<br><br>
+menambahkan konfigurasi pada <code>/etc/bind/wise/wise.t07.com</code>
+
+```
+$TTL    604800
+@       IN      SOA     wise.t07.com. root.wise.t07.com. (
+                        2021100401      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+;
+@               IN      NS      wise.t07.com.
+@               IN      A       10.45.2.2 ; IP EniesLobby
+www             IN      CNAME   wise.t07.com.
+
+```
+
+Melakukan restart service bind9 dengan <code>service bind9 restart</code>
+
+### Soal 3
+
+Melakukan Edit pada file <code>/etc/bind/kaizoku/wise.t07.com</code> menjadi seperti berikut:
+
+```
+$TTL    604800
+@       IN      SOA     wise.t07.com. root.wise.t07.com. (
+                        2021100401      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+;
+@               IN      NS      wise.t07.com.
+@               IN      A       10.45.2.2 ; IP EniesLobby
+www             IN      CNAME   wise.t07.com.
+super           IN      A       10.45.2.4 ; IP skype
+www.super       IN      CNAME   super.wise.t07.com.
+```
+
+Melakukan restart sevice bind9 dengan <code>service bind9 restart</code>
+
+### Soal 4
+
+Edit file <code>/etc/bind/named.conf.local</code> menjadi sebagai berikut:
+
+```
+zone "wise.t07.com" {
+        type master;
+        file "/etc/bind/wise/wise.t07.com";
+};
+
+zone "2.45.10.in-addr.arpa" {
+        type master;
+        file "/etc/bind/wise/2.45.10.in-addr.arpa";
+};
+```
+
+dan lakukan konfigurasi pada file <code>/etc/bind/wise/2.45.10.in-addr.arpa</code> seperti berikut ini:
+
+```
+$TTL    604800
+@       IN      SOA     wise.t07.com. root.wise.t07.com. (
+                        2021100401      ; Serial
+                        604800          ; Refresh
+                        86400         ; Retry
+                        2419200         ; Expire
+                        604800 )       ; Negative Cache TTL
+;
+2.45.10.in-addr.arpa.   IN      NS      wise.t07.com.
+2                       IN      PTR     wise.t07.com.
+```
+
+### Soal 5
+
+<strong>Service Berlint</strong>
+<br>
+lakukan konfigurasi pada file <code>/etc/bind/named.conf.local</code> sebagai berikut untuk melakukan konfigurasi DNS Slave yang mengarah ke berlint:
+
+```
+zone "wise.t07.com" {
+        type master;
+        notify yes;
+        also-notify {10.45.2.3;};  //Masukan IP berlint tanpa tanda petik
+        allow-transfer {10.45.2.3;}; // Masukan IP berlint tanpa tanda petik
+        file "/etc/bind/wise/wise.t07.com";
+};
+
+zone "2.45.10.in-addr.arpa" {
+        type master;
+        file "/etc/bind/wise/2.45.10.in-addr.arpa";
+};
+```
+
+Melakukan restart sevice bind9 dengan <code>service bind9 restart</code>
+
+### Soal 6
+
+### Soal 7
+
+### Soal 8
+
+### Soal 9
