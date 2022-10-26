@@ -46,7 +46,9 @@ Deskripsi tiap soal:
     <li>
         Buat reverse domain untuk domain utama
     </li>
+    <li>
         Buatlah Berlint sebagai DNS Slave untuk domain utama
+    </li>
     <li>
         Buat subdomain khusus untuk operation, yaitu operation.wise.yyy.com dengan alias www.operation.wise.yyy.com dengan IP menuju ke Eden dalam folder operation.
     </li>
