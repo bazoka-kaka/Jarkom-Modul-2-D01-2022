@@ -168,7 +168,7 @@ iface eth0 inet static
     gateway 10.45.2.1
 ```
 
-<strong>Skypie Sebagai Webserver</strong>
+<strong>eden Sebagai Webserver</strong>
 
 ```
 auto eth0
@@ -292,6 +292,26 @@ zone "2.45.10.in-addr.arpa" {
 Melakukan restart sevice bind9 dengan <code>service bind9 restart</code>
 
 ### Soal 6
+
+Melakukan konfigurasi <code>/etc/bind/wise/wise.t07.com</code>
+
+```
+$TTL    604800
+@       IN      SOA     franky.t07.com. root.franky.t07.com. (
+                        2021100401      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+;
+@               IN      NS      franky.t07.com.
+@               IN      A       10.45.2.4 ; IP skypea
+www             IN      CNAME   franky.t07.com.
+super           IN      A       10.45.2.4 ; IP skypea
+www.super       IN      CNAME   super.franky.t07.com.
+ns1             IN      A       10.45.2.3; IP berlint
+mecha           IN      NS      ns1
+```
 
 ### Soal 7
 
