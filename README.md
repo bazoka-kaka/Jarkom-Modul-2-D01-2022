@@ -300,7 +300,7 @@ Edit file `/etc/bind/named.conf.options` dan comment `dnssec-validation auto;` d
 allow-query{any;};
 ```
 
-kemudian edit file `/etc/bind/named.conf.local` untuk delegasi `mecha.wise.t07.com`
+kemudian edit file `/etc/bind/named.conf.local` untuk delegasi `operation.wise.t07.com`
 
 ```
 zone "wise.t07.com" {
@@ -309,26 +309,26 @@ zone "wise.t07.com" {
     file "/var/lib/bind/wise.t07.com";
 };
 
-zone "mecha.wise.t07.com"{
+zone "operation.wise.t07.com"{
         type master;
-        file "/etc/bind/sunnygo/mecha.wise.t07.com";
+        file "/etc/bind/sunnygo/operation.wise.t07.com";
 };
 ```
 
-buat sebuah direktori `mkdir /etc/bind/sunnygo` dan Lakukan konfigurasi pada file `/etc/bind/sunnygo/mecha.wise.t07.com`
+buat sebuah direktori `mkdir /etc/bind/sunnygo` dan Lakukan konfigurasi pada file `/etc/bind/sunnygo/operation.wise.t07.com`
 
 ```
 $TTL    604800
-@       IN      SOA     mecha.wise.t07.com. root.mecha.wise.t07.com. (
+@       IN      SOA     operation.wise.t07.com. root.operation.wise.t07.com. (
                         2021100401      ; Serial
                         604800         ; Refresh
                         86400         ; Retry
                         2419200         ; Expire
                         604800 )       ; Negative Cache TTL
 ;
-@               IN      NS      mecha.wise.t07.com.
+@               IN      NS      operation.wise.t07.com.
 @               IN      A       10.45.2.4       ;ip eden
-www             IN      CNAME   mecha.wise.t07.com.
+www             IN      CNAME   operation.wise.t07.com.
 ```
 
 Melakukan restart sevice bind9 dengan `service bind9 restart`
@@ -336,22 +336,22 @@ Melakukan restart sevice bind9 dengan `service bind9 restart`
 ### Soal 7
 
 **Server berlint**  
-konfigurasi file `/etc/bind/sunnygo/mecha.wise.t07.com` dengan
+konfigurasi file `/etc/bind/sunnygo/operation.wise.t07.com` dengan
 
 ```
 $TTL    604800
-@       IN      SOA     mecha.wise.t07.com. root.mecha.wise.t07.com. (
+@       IN      SOA     operation.wise.t07.com. root.operation.wise.t07.com. (
                         2021100401      ; Serial
                         604800         ; Refresh
                         86400         ; Retry
                         2419200         ; Expire
                         604800 )       ; Negative Cache TTL
 ;
-@               IN      NS      mecha.wise.t07.com.
+@               IN      NS      operation.wise.t07.com.
 @               IN      A       10.45.2.4       ;ip eden
-www             IN      CNAME   mecha.wise.t07.com.
+www             IN      CNAME   operation.wise.t07.com.
 general         IN      A       10.45.2.4       ;IP eden
-www.general     IN      CNAME   mecha.wise.t07.com.
+www.general     IN      CNAME   operation.wise.t07.com.
 ```
 
 Melakukan restart sevice bind9 dengan `service bind9 restart`
@@ -579,20 +579,20 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 
 ## soal 14
 
-Dan Luffy meminta untuk web `www.general.mecha.wise.yyy.com` hanya bisa diakses dengan port 15000 dan port 15500
+Dan Luffy meminta untuk web `www.general.operation.wise.yyy.com` hanya bisa diakses dengan port 15000 dan port 15500
 
 ### Jawaban Soal 14
 
 **Server eden**  
-konfigurasi file `/etc/apache2/sites-available/general.mecha.wise.t07.com.conf` disini menambahkan CirtualHost baru yang berada pada port 15000 dan 15500 dengan
+konfigurasi file `/etc/apache2/sites-available/general.operation.wise.t07.com.conf` disini menambahkan CirtualHost baru yang berada pada port 15000 dan 15500 dengan
 
 ```
 <VirtualHost *:15000>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/general.mecha.wise.t07.com
-        ServerName general.mecha.wise.t07.com
-        ServerAlias www.general.mecha.wise.t07.com
+        DocumentRoot /var/www/general.operation.wise.t07.com
+        ServerName general.operation.wise.t07.com
+        ServerAlias www.general.operation.wise.t07.com
 
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
@@ -600,9 +600,9 @@ konfigurasi file `/etc/apache2/sites-available/general.mecha.wise.t07.com.conf` 
 </VirtualHost>
 <VirtualHost *:15500>
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/general.mecha.wise.t07.com
-        ServerName general.mecha.wise.t07.com
-        ServerAlias www.general.mecha.wise.t07.com
+        DocumentRoot /var/www/general.operation.wise.t07.com
+        ServerName general.operation.wise.t07.com
+        ServerAlias www.general.operation.wise.t07.com
 
 
         ErrorLog \${APACHE_LOG_DIR}/error.log
@@ -613,13 +613,13 @@ konfigurasi file `/etc/apache2/sites-available/general.mecha.wise.t07.com.conf` 
 Lalu lakukan
 
 ```
-a2ensite general.mecha.wise.t07.com
+a2ensite general.operation.wise.t07.com
 service apache2 restart
-mkdir /var/www/general.mecha.wise.t07.com
-cp -r /root/Praktikum-Modul-2-Jarkom/general.mecha.wise/. /var/www/general.mecha.wise.t07.com/
+mkdir /var/www/general.operation.wise.t07.com
+cp -r /root/Praktikum-Modul-2-Jarkom/general.operation.wise/. /var/www/general.operation.wise.t07.com/
 ```
 
-konfigurasi file `/var/www/general.mecha.wise.t07.com/index.php` dengan
+konfigurasi file `/var/www/general.operation.wise.t07.com/index.php` dengan
 
 ```
 <?php
@@ -652,17 +652,17 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 
 **Server eden**  
 Jalankan Command `htpasswd -c -b /etc/apache2/.htpasswd luffy onepiece`  
-konfigurasi file `/etc/apache2/sites-available/general.mecha.wise.t07.com.conf` dengan
+konfigurasi file `/etc/apache2/sites-available/general.operation.wise.t07.com.conf` dengan
 
 ```
 <VirtualHost *:15000>
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/general.mecha.wise.t07.com
-        ServerName general.mecha.wise.t07.com
-        ServerAlias www.general.mecha.wise.t07.com
+        DocumentRoot /var/www/general.operation.wise.t07.com
+        ServerName general.operation.wise.t07.com
+        ServerAlias www.general.operation.wise.t07.com
 
-        <Directory \"/var/www/general.mecha.wise.t07.com\">
+        <Directory \"/var/www/general.operation.wise.t07.com\">
                 AuthType Basic
                 AuthName \"Restricted Content\"
                 AuthUserFile /etc/apache2/.htpasswd
@@ -674,11 +674,11 @@ konfigurasi file `/etc/apache2/sites-available/general.mecha.wise.t07.com.conf` 
 </VirtualHost>
 <VirtualHost *:15500>
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/general.mecha.wise.t07.com
-        ServerName general.mecha.wise.t07.com
-        ServerAlias www.general.mecha.wise.t07.com
+        DocumentRoot /var/www/general.operation.wise.t07.com
+        ServerName general.operation.wise.t07.com
+        ServerAlias www.general.operation.wise.t07.com
 
-        <Directory \"/var/www/general.mecha.wise.t07.com\">
+        <Directory \"/var/www/general.operation.wise.t07.com\">
                 AuthType Basic
                 AuthName \"Restricted Content\"
                 AuthUserFile /etc/apache2/.htpasswd
