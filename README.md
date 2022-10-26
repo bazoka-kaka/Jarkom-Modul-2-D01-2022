@@ -311,11 +311,11 @@ zone "wise.t07.com" {
 
 zone "operation.wise.t07.com"{
         type master;
-        file "/etc/bind/sunnygo/operation.wise.t07.com";
+        file "/etc/bind/wise/operation.wise.t07.com";
 };
 ```
 
-buat sebuah direktori `mkdir /etc/bind/sunnygo` dan Lakukan konfigurasi pada file `/etc/bind/sunnygo/operation.wise.t07.com`
+buat sebuah direktori `mkdir /etc/bind/wise` dan Lakukan konfigurasi pada file `/etc/bind/wise/operation.wise.t07.com`
 
 ```
 $TTL    604800
@@ -336,7 +336,7 @@ Melakukan restart sevice bind9 dengan `service bind9 restart`
 ### Soal 7
 
 **Server berlint**  
-konfigurasi file `/etc/bind/sunnygo/operation.wise.t07.com` dengan
+konfigurasi file `/etc/bind/wise/operation.wise.t07.com` dengan
 
 ```
 $TTL    604800
