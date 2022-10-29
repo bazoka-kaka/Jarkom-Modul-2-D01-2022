@@ -505,15 +505,15 @@ apt-get install ca-certificates openssl -y
 Pull .zip yang sudah di-push ke repo dan extract
 
 ```
-wget 'https://github.com/Chroax/Jarkom-Modul-2-B11-2022/raw/main/resources/wise.zip'
+wget 'https://github.com/bazoka-kaka/Jarkom-Modul-2-D01-2022/raw/main/Resources/wise.zip'
 unzip wise.zip
 rm wise.zip
 
-wget 'https://github.com/Chroax/Jarkom-Modul-2-B11-2022/raw/main/resources/strix.operation.wise.zip'
+wget 'https://github.com/bazoka-kaka/Jarkom-Modul-2-D01-2022/raw/main/Resources/strix.operation.wise.zip'
 unzip strix.operation.wise.zip
 rm strix.operation.wise.zip
 
-wget 'https://github.com/Chroax/Jarkom-Modul-2-B11-2022/raw/main/resources/eden.wise.zip'
+wget 'https://github.com/bazoka-kaka/Jarkom-Modul-2-D01-2022/raw/main/Resources/eden.wise.zip'
 unzip eden.wise.zip
 rm eden.wise.zip
 ```
