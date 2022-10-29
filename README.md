@@ -211,6 +211,7 @@ ping www.wise.d01.com
 <img src="./imgs/2/ping-www.wise.d01.com.png"   alt="ping www.wise.d01.com.png" />
 
 host -t CNAMAE www.wise.d01.com
+
 <img src="./imgs/2/host_-t_CNAME_www.wise.d01.com.png"  alt="host -t CNAME www.wise.d01.com.png" />
 
 
