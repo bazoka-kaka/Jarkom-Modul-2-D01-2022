@@ -170,6 +170,7 @@ Command-command di atas (dan command-command yang akan kami paparkan selanjutnya
 > Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise.
 
 **Server WISE**
+
 Melakukan konfigurasi terhadap file <code>/etc/bind/named.conf.local </code> dengan menambahkan
 
 ```
@@ -220,6 +221,7 @@ host -t CNAMAE www.wise.d01.com
 > Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden
 
 **Server WISE**
+
 Melakukan edit pada file <code>/etc/bind/wise/wise.d01.com</code> menjadi seperti berikut:
 
 ```
@@ -259,7 +261,8 @@ host -t CNAME www.eden.wise.d01.com
 > Buat juga reverse domain untuk domain utama.
 
 **Server WISE**
-Edit file <code>/etc/bind/named.conf.local</code> menjadi sebagai berikut:
+
+Edit file <code>/etc/bind/named.conf.local</code> menjadi sebagai berikut.
 
 ```
 zone "wise.d01.com" {
@@ -273,7 +276,7 @@ zone "3.185.192.in-addr.arpa" {
 };
 ```
 
-dan lakukan konfigurasi pada file <code>/etc/bind/wise/3.185.192.in-addr.arpa</code> seperti berikut ini:
+Dan lakukan konfigurasi pada file <code>/etc/bind/wise/3.185.192.in-addr.arpa</code> seperti berikut ini.
 
 ```
 $TTL    604800
@@ -300,6 +303,7 @@ host -t PTR 192.185.3.2
 > Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama.
 
 **Server WISE**
+
 Melakukan konfigurasi pada file <code>/etc/bind/named.conf.local</code> sebagai berikut untuk melakukan konfigurasi DNS Slave yang mengarah ke Berlint:
 
 ```
@@ -320,6 +324,7 @@ zone "3.185.192.in-addr.arpa" {
 Melakukan restart sevice bind9 dengan <code>service bind9 restart</code>
 
 **Server Berlint**
+
 Melakukan `apt-get update` dan menginstall bind9 dengan cara `apt-get install bind9 -y` dikarenakan water7 akan dijadikan DNS Slave.   
   
 Lakukan konfigurasi pada file `/etc/bind/named.conf.local `  
@@ -343,7 +348,8 @@ ping wise.d01.com
 
 > Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk eden yaitu eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder eden.
 
-**Server WISE**  
+**Server WISE**
+
 Melakukan konfigurasi `/etc/bind/wise/wise.d01.com`  
 ```
 $TTL    604800
@@ -381,14 +387,15 @@ zone "3.185.192.in-addr.arpa" {
 ```
 Melakukan restart sevice bind9 dengan `service bind9 restart` 
 
-**Server Berlint**  
+**Server Berlint** 
+
 Edit file `/etc/bind/named.conf.options` dan comment `dnssec-validation auto;` dan tambahkan baris berikut pada `/etc/bind/named.conf.options`
 
 ```
 allow-query{any;};
 ```
 
-kemudian edit file `/etc/bind/named.conf.local` untuk delegasi `eden.wise.d01.com`
+Kemudian edit file `/etc/bind/named.conf.local` untuk delegasi `eden.wise.d01.com`
 
 ```
 zone "wise.d01.com" {
@@ -403,7 +410,7 @@ zone "eden.wise.d01.com"{
 };
 ```
 
-buat sebuah direktori `mkdir /etc/bind/wise` dan Lakukan konfigurasi pada file `/etc/bind/wise/eden.wise.d01.com`
+Buat sebuah direktori `mkdir /etc/bind/wise` dan lakukan konfigurasi pada file `/etc/bind/wise/eden.wise.d01.com`
 
 ```
 $TTL    604800
@@ -427,7 +434,7 @@ ping operation.wise.d01.com
 
 <img src="./imgs/6/ping_operation.wise.d01.com.png"   alt="ping operation.wise.d01.com.png" />
 
-ping www.operation.wise.d01.com.png
+ping www.operation.wise.d01.com
 
 <img src="./imgs/7/ping_www.operation.wise.d01.com.png"   alt="ping www.operation.wise.d01.com.png" />
 
@@ -435,7 +442,8 @@ ping www.operation.wise.d01.com.png
 
 > Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden
 
-**Server Berlint**  
+**Server Berlint**
+
 Konfigurasi file `/etc/bind/wise/eden.wise.d01.com` dengan
 
 ```
@@ -458,11 +466,11 @@ Melakukan restart sevice bind9 dengan `service bind9 restart`
 
 <strong>Testing</strong>
 
-host -t A strix.operation.wise.d01.com.png
+host -t A strix.operation.wise.d01.com
 
 <img src="./imgs/7/host_-t_A_strix.operation.wise.d01.com.png"   alt="host -t A strix.operation.wise.d01.com.png" />
 
-ping www.operation.wise.d01.com.png
+ping www.operation.wise.d01.com
 
 <img src="./imgs/7/ping_www.operation.wise.d01.com.png"   alt="ping www.operation.wise.d01.com.png" />
 
@@ -471,6 +479,7 @@ ping www.operation.wise.d01.com.png
 > Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver www.wise.yyy.com. Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com.
 
 **Client SSS**  
+
 Melakukan `apt-get update` dan menginstall lynx dengan cara
 
 ```
@@ -479,6 +488,7 @@ apt-get install lynx -y
 ```
 
 **Server Eden**  
+
 Melakukan instalasi Apache, PHP, OpenSSL untuk melakukan download ke website https dengan cara
 ```
 apt-get install apache2 -y
@@ -557,7 +567,7 @@ service apache2 restart
 
 <strong>Testing</strong>
 
-lynx wise.d01.com.png
+lynx wise.d01.com
 
 <img src="./imgs/8/lynx_wise.d01.com.png"   alt="lynx wise.d01.com.png" />
 
@@ -566,7 +576,8 @@ lynx wise.d01.com.png
 > Setelah itu, Loid juga membutuhkan agar url www.wise.yyy.com/index.php/home dapat menjadi menjadi www.wise.yyy.com/home
 
 **Server Eden**  
-konfigurasi file `/var/www/wise.d01.com/.htaccess` dengan
+
+Konfigurasi file `/var/www/wise.d01.com/.htaccess` dengan
 
 ```
 a2enmod rewrite
@@ -610,8 +621,8 @@ lynx wise.d01.com
 
 > Setelah itu, pada subdomain www.eden.wise.yyy.com, Loid membutuhkan penyimpanan aset yang memiliki DocumentRoot pada /var/www/eden.wise.yyy.com
 
-
 **Server Eden**  
+
 konfigurasi file `/etc/apache2/sites-available/eden.wise.d01.com.conf` dengan
 
 ```
@@ -641,11 +652,11 @@ cp -r /root/Praktikum-Modul-2-Jarkom/eden.wise/. /var/www/eden.wise.d01.com
 service apache2 restart
 ```
 
-konfigurasi file `/var/www/eden.wise.d01.com/index.php` dengan `echo "<?php echo 'yes nomor 10' ?>"`
+Konfigurasi file `/var/www/eden.wise.d01.com/index.php` dengan `echo "<?php echo 'yes nomor 10' ?>"`
 
 <strong>Testing</strong>
 
-lynx www.eden.wise.d01.com.png
+lynx www.eden.wise.d01.com
 
 <img src="./imgs/10/lynx_www.eden.wise.d01.com.png"   alt="lynx www.eden.wise.d01.com.png" />
 
@@ -654,7 +665,8 @@ lynx www.eden.wise.d01.com.png
 > Akan tetapi, pada folder /public, Loid ingin hanya dapat melakukan directory listing saja.
 
 **Server Eden**  
-konfigurasi file `/etc/apache2/sites-available/eden.wise.d01.com.conf` menamahkan Options +Indexes ke direktori yang ingin di directory list dengan
+
+Konfigurasi file `/etc/apache2/sites-available/eden.wise.d01.com.conf` menamahkan Options +Indexes ke direktori yang ingin di directory list dengan
 
 ```
 
@@ -684,16 +696,17 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 
 <strong>Testing</strong>
 
-lynx www.eden.wise.d01.com.png
+lynx www.eden.wise.d01.com
 
 <img src="./imgs/11/lynx_www.eden.wise.d01.com.png"   alt="lynx www.eden.wise.d01.com.png" />
 
-## soal 12
+## Soal 12
 
 > Tidak hanya itu, Loid juga ingin menyiapkan error file 404.html pada folder /error untuk mengganti error kode pada apache.
 
 **Server Eden**  
-konfigurasi file `/etc/apache2/sites-available/eden.wise.d01.com.conf` menambahkan konfigurasi ErrorDocumentuntuk setiap error yang ada yang diarahkan ke file /error/404.html dengan
+
+Konfigurasi file `/etc/apache2/sites-available/eden.wise.d01.com.conf` menambahkan konfigurasi ErrorDocumentuntuk setiap error yang ada yang diarahkan ke file /error/404.html dengan
 
 ```
 
@@ -728,7 +741,7 @@ Melakukan restart service apache2 dengan `service apache2 restart`
 
 <strong>Testing</strong>
 
-lynx www.eden.wise.d01.com.png
+lynx www.eden.wise.d01.com
 
 <img src="./imgs/12/lynx_www.eden.wise.d01.com.png"   alt="lynx www.eden.wise.d01.com.png" />
 
