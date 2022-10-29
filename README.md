@@ -200,6 +200,20 @@ www             IN      CNAME   wise.d01.com.
 
 Melakukan restart service bind9 dengan <code>service bind9 restart</code>
 
+<strong>Testing</strong>
+
+ping wise.d01.com
+
+<img src="./imgs/2/ping_wise.d01.com.png"   alt="ping wise.d01.com.png" />
+
+ping www.wise.d01.com
+
+<img src="./imgs/2/ping-www.wise.d01.com.png"   alt="ping www.wise.d01.com.png" />
+
+host -t CNAMAE www.wise.d01.com
+<img src="./imgs/2/host_-t_CNAME_www.wise.d01.com.png"  alt="host -t CNAME www.wise.d01.com.png" />
+
+
 ### Soal 3
 
 > Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden
@@ -224,6 +238,20 @@ www.eden        IN      CNAME   eden.wise.d01.com.
 ```
 
 Melakukan restart sevice bind9 dengan <code>service bind9 restart</code>
+
+<strong>Testing</strong>
+
+ping eden.wise.d01.com
+
+<img src="./imgs/3/ping_www.eden.wise.d01.com.png"   alt="ping eden.wise.d01.com.png" />
+
+ping www.eden.wise.d01.com
+
+<img src="./imgs/3/ping_www.eden.wise.d01.com.png"   alt="ping www.eden.wise.d01.com.png" />
+
+host -t CNAME www.eden.wise.d01.com
+
+<img src="./imgs/3/host_-t_CNAME_www.eden.wise.d01.com.png"   alt="ping host -t CNAME www.eden.wise.d01.com.png" />
 
 ### Soal 4
 
@@ -259,6 +287,13 @@ $TTL    604800
 2                       IN      PTR     wise.d01.com.
 ```
 
+<strong>Testing</strong>
+
+host -t PTR 192.185.3.2
+
+<img src="./imgs/4/host_-t_PTR_192.185.3.2.png"   alt="host -t PTR 192.185.3.2.png" />
+
+
 ### Soal 5
 
 > Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama.
@@ -283,6 +318,12 @@ zone "3.185.192.in-addr.arpa" {
 ```
 
 Melakukan restart sevice bind9 dengan <code>service bind9 restart</code>
+
+<strong>Testing</strong>
+
+ping wise.d01.com
+
+<img src="./imgs/5/ping_wise.d01.com.png"   alt="ping wise.d01.com.png" />
 
 ### Soal 6
 
@@ -366,6 +407,16 @@ www             IN      CNAME   operation.wise.d01.com.
 
 Melakukan restart sevice bind9 dengan `service bind9 restart`
 
+<strong>Testing</strong>
+
+ping operation.wise.d01.com
+
+<img src="./imgs/6/ping_operation.wise.d01.com.png"   alt="ping operation.wise.d01.com.png" />
+
+ping www.operation.wise.d01.com.png
+
+<img src="./imgs/7/ping_www.operation.wise.d01.com.png"   alt="ping www.operation.wise.d01.com.png" />
+
 ### Soal 7
 
 > Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden
@@ -390,6 +441,16 @@ www.strix       IN      CNAME   operation.wise.d01.com.
 ```
 
 Melakukan restart sevice bind9 dengan `service bind9 restart`
+
+<strong>Testing</strong>
+
+host -t A strix.operation.wise.d01.com.png
+
+<img src="./imgs/7/host_-t_A_strix.operation.wise.d01.com.png"   alt="host -t A strix.operation.wise.d01.com.png" />
+
+ping www.operation.wise.d01.com.png
+
+<img src="./imgs/7/ping_www.operation.wise.d01.com.png"   alt="ping www.operation.wise.d01.com.png" />
 
 ### Soal 8
 
@@ -437,9 +498,14 @@ mkdir /var/www/wise.d01.com
 cp -r /root/Praktikum-Modul-2-Jarkom/wise/. /var/www/wise.d01.com
 service apache2 restart
 ```
+<strong>Testing</strong>
+
+lynx wise.d01.com.png
+
+<img src="./imgs/8/lynx_wise.d01.com.png"   alt="lynx wise.d01.com.png" />
 
 ### Soal 9
-
+imgs/8/lynx_wise.d01.com.png
 > Setelah itu, Loid juga membutuhkan agar url www.wise.yyy.com/index.php/home dapat menjadi menjadi www.wise.yyy.com/home
 
 **Server Eden**  
@@ -476,6 +542,12 @@ konfigurasi file `/etc/apache2/sites-available/wise.d01.com.conf` dengan
 ```
 
 Melakukan restart service apache2 dengan `service apache2 restart`
+
+<strong>Testing</strong>
+
+lynx wise.d01.comhome.png
+
+<img src="./imgs/9/lynx_wise.d01.comhome.png"   alt="lynx wise.d01.comhome.png" />
 
 ## Soal 10
 
@@ -514,6 +586,12 @@ service apache2 restart
 
 konfigurasi file `/var/www/eden.wise.d01.com/index.php` dengan `echo "<?php echo 'yes nomor 10' ?>"`
 
+<strong>Testing</strong>
+
+lynx www.eden.wise.d01.com.png
+
+<img src="./imgs/10/lynx_www.eden.wise.d01.com.png"   alt="lynx www.eden.wise.d01.com.png" />
+
 ## Soal 11
 
 > Akan tetapi, pada folder /public, Loid ingin hanya dapat melakukan directory listing saja.
@@ -546,6 +624,12 @@ konfigurasi file `/etc/apache2/sites-available/eden.wise.d01.com.conf` menamahka
 ```
 
 Melakukan restart service apache2 dengan `service apache2 restart`
+
+<strong>Testing</strong>
+
+lynx www.eden.wise.d01.com.png
+
+<img src="./imgs/11/lynx_www.eden.wise.d01.com.png"   alt="lynx www.eden.wise.d01.com.png" />
 
 ## soal 12
 
@@ -584,6 +668,12 @@ konfigurasi file `/etc/apache2/sites-available/eden.wise.d01.com.conf` menambahk
 ```
 
 Melakukan restart service apache2 dengan `service apache2 restart`
+
+<strong>Testing</strong>
+
+lynx www.eden.wise.d01.com.png
+
+<img src="./imgs/12/lynx_www.eden.wise.d01.com.png"   alt="lynx www.eden.wise.d01.com.png" />
 
 ## Soal 13
 
