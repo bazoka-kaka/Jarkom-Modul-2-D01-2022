@@ -330,10 +330,10 @@ Melakukan `apt-get update` dan menginstall bind9 dengan cara `apt-get install bi
 Lakukan konfigurasi pada file `/etc/bind/named.conf.local `  
 
 ```
-zone "franky.t07.com" {
+zone "wise.d01.com" {
         type slave;
-        masters { 10.45.2.2; }; // Masukan IP EniesLobby tanpa tanda petik
-        file "/var/lib/bind/franky.t07.com";
+        masters { 192.185.3.2; }; // Masukan IP wise tanpa tanda petik
+        file "/var/lib/bind/wise.d01.com";
 };
 ```  
 Melakukan restart sevice bind9 dengan `service bind9 restart`
@@ -376,7 +376,7 @@ Kemudian edit file `/etc/bind/named.conf.local` menjadi seperti
 ```  
 zone "wise.d01.com" {
         type master;
-        allow-transfer {192.185.2.3;}; // Masukan IP Berlint tanpa tanda petik
+        allow-transfer {192.185.2.2;}; // Masukan IP Berlint tanpa tanda petik
         file "/etc/bind/wise/wise.d01.com";
 };
 
